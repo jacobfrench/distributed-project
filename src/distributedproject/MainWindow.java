@@ -35,17 +35,18 @@ public class MainWindow extends javax.swing.JFrame {
     public MainWindow() throws SocketException {
         initComponents();
         this.chatArea.setFocusable(false);
-        DefaultCaret caret = (DefaultCaret)chatArea.getCaret();
+        DefaultCaret caret = (DefaultCaret) chatArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        
+
         peers = new Vector<String>();
+        peers.add("192.168.1.22");
+        peers.add("192.168.1.100");
         peerList.setListData(peers);
         peerList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-      
+
         alias = "Anon";
         destIp = "192.168.1.100";
         connectToClient();
-        
 
     }
 
@@ -218,9 +219,8 @@ public class MainWindow extends javax.swing.JFrame {
             portScanner.stop();
             scanButton.setText("Scan Peers");
         }
-        
-        System.out.println(peerList.getModel().getSize());
 
+        System.out.println(peerList.getModel().getSize());
 
 
     }//GEN-LAST:event_scanButtonActionPerformed
@@ -238,21 +238,28 @@ public class MainWindow extends javax.swing.JFrame {
         new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    
     public void sendMessage() {
         String message = messageField.getText();
+        String sentMessage = "";
         this.alias = this.aliasField.getText();
-        if(!alias.equals(""))
-            client.setAlias(this.aliasField.getText());
-        else{
-            client.setAlias("Anon");
-        }
 
-        if (!message.equals("")) {
-            destIp = peerList.getSelectedValue();
-            chatArea.append(client.sendMessage(message, alias, destIp) + "\n");
-            messageField.setText("");
+        for (int i = 0; i < peerList.getModel().getSize(); i++) {
+            destIp = peerList.getModel().getElementAt(i);
+            if (!alias.equals("")) {
+                client.setAlias(this.aliasField.getText());
+            } else {
+                client.setAlias("Anon");
+            }
+            if (!message.equals("")) {
+                sentMessage = client.sendMessage(message, alias, destIp) + "\n";
+                messageField.setText("");
+            }
+            
+
         }
+        chatArea.append(sentMessage);
+
+
         destIp = "192.168.1.100";
 
     }
