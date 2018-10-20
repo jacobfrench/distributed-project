@@ -45,7 +45,7 @@ public class DmWindow extends javax.swing.JFrame {
 
     private void connectToClient() {
         try {
-            client = new Client(destIp, chatArea, 8001, 8000);
+            client = new Client(destIp, chatArea, 8001, 8001);
             client.setAlias(alias);
 
         } catch (SocketException ex) {
@@ -131,7 +131,7 @@ public class DmWindow extends javax.swing.JFrame {
         }
 
         if (!message.equals("")) {
-            chatArea.append(client.sendMessage(message, alias, "192.168.1.100") + "\n");
+            chatArea.append(client.sendMessage(message, alias, destIp) + "\n");
             messageField.setText("");
         }
 

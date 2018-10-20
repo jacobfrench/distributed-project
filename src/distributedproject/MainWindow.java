@@ -43,7 +43,7 @@ public class MainWindow extends javax.swing.JFrame {
         peerList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
       
         alias = "Anon";
-        destIp = "192.168.1.10";
+        destIp = "192.168.1.100";
         connectToClient();
         
 
@@ -234,7 +234,7 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_messageFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -249,9 +249,11 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         if (!message.equals("")) {
+            destIp = peerList.getSelectedValue();
             chatArea.append(client.sendMessage(message, alias, destIp) + "\n");
             messageField.setText("");
         }
+        destIp = "192.168.1.100";
 
     }
 
