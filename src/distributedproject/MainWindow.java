@@ -10,16 +10,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import distributedproject.p2p.Client;
 import distributedproject.p2p.PortScanner;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Vector;
-import javax.swing.DefaultListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.text.DefaultCaret;
 
 /**
  *
- * @author me
+ * @author Jacob French
  */
 public class MainWindow extends javax.swing.JFrame {
 
@@ -39,17 +36,23 @@ public class MainWindow extends javax.swing.JFrame {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         peers = new Vector<String>();
+        // these are ips on my network. I just put these here to test this on
+        // my home network. you will need to change these for yours.
         peers.add("192.168.1.22");
         peers.add("192.168.1.100");
         peerList.setListData(peers);
         peerList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         alias = "Anon";
-        destIp = "192.168.1.100";
         connectToClient();
 
     }
 
+    /*
+    * This method establishes a connection to a client on port 8000.
+    * the destination ip (destIp) determines which IP address will recieve 
+    * any message sent on this window.
+    */
     private void connectToClient() {
         try {
             client = new Client(destIp, chatArea, 8000, 8000);
@@ -210,6 +213,11 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*
+     * This method is called whenever the port scan button is pressed. If the 
+     * button is pressed down, a port scan will begin. Otherwise, the port scan
+     * will stop.
+    */
     private void scanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scanButtonActionPerformed
         if (scanButton.isSelected()) {
             peers.clear();
@@ -219,8 +227,6 @@ public class MainWindow extends javax.swing.JFrame {
             portScanner.stop();
             scanButton.setText("Scan Peers");
         }
-
-        System.out.println(peerList.getModel().getSize());
 
 
     }//GEN-LAST:event_scanButtonActionPerformed
@@ -238,6 +244,12 @@ public class MainWindow extends javax.swing.JFrame {
         new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    /*
+    * This method will send a message to every IP address found after a port scan.
+    * if the IP is in the list on the right side, a message will be sent to that
+    * address on port 8000.
+    */
     public void sendMessage() {
         String message = messageField.getText();
         String sentMessage = "";
@@ -260,7 +272,6 @@ public class MainWindow extends javax.swing.JFrame {
         chatArea.append(sentMessage);
 
 
-        destIp = "192.168.1.100";
 
     }
 
