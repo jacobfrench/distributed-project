@@ -18,20 +18,20 @@ import javax.swing.text.DefaultCaret;
  */
 public class Client {
 
-    private static int SOURCE_PORT = 8000;
-    private static int DEST_PORT = 8000;
     private String clientIp;
     private String alias;
     private Channel channel;
     private InetSocketAddress address;
     private String destinationIp;
+    private int sourcePort;
+    private int destPort;
 
-    public Client(String destinationIP, JTextArea chatBox) throws SocketException {
+    public Client(String destinationIP, JTextArea chatBox, int sourcePort, int destPort) throws SocketException {
         setClientIp();
         System.out.println("My IP: " + clientIp);
-
+        this.destPort = destPort;
         channel = new Channel(chatBox);
-        channel.bind(SOURCE_PORT);
+        channel.bind(sourcePort);
         channel.start();
 
     }
@@ -41,14 +41,15 @@ public class Client {
     }
     
 
-    public String sendMessage(String msg, String name, String destinationIp) {
+    public String sendMessage(String msg, String alias, String destinationIp) {
+        System.out.printf("msg=%s, name=%s, destIp=%s\n", msg, alias, destinationIp);
         if (msg.isEmpty()) {
             return null;
         }
 
         msg = alias + ": " + msg;
         try {
-            address = new java.net.InetSocketAddress(destinationIp, DEST_PORT);
+            address = new java.net.InetSocketAddress(destinationIp, destPort);
             channel.sendTo(address, msg);
         } catch (IOException e) {
             e.printStackTrace();
