@@ -39,8 +39,8 @@ public class MainWindow extends javax.swing.JFrame {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         peers = new Vector<String>();
-        peers.add("192.168.1.22");
-        peers.add("192.168.1.100");
+        peers.add("192.168.43.63");
+//        peers.add("192.168.43.224");
         peerList.setListData(peers);
         peerList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
@@ -74,6 +74,8 @@ public class MainWindow extends javax.swing.JFrame {
         sendButton = new javax.swing.JButton();
         scanButton = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
+        ipField = new javax.swing.JTextField();
+        ipButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         chatArea = new javax.swing.JTextArea();
@@ -115,6 +117,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        ipButton.setText("Add IP");
+        ipButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ipButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout southPanelLayout = new javax.swing.GroupLayout(southPanel);
         southPanel.setLayout(southPanelLayout);
         southPanelLayout.setHorizontalGroup(
@@ -123,7 +132,10 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(southPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(southPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(ipField, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ipButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(scanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -139,7 +151,9 @@ public class MainWindow extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(southPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(scanButton)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(ipField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ipButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(southPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(sendButton)
@@ -238,6 +252,11 @@ public class MainWindow extends javax.swing.JFrame {
         new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void ipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipButtonActionPerformed
+        peers.add(ipField.getText());
+        peerList.setListData(peers);
+    }//GEN-LAST:event_ipButtonActionPerformed
+
     public void sendMessage() {
         String message = messageField.getText();
         String sentMessage = "";
@@ -307,6 +326,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel MainPanel;
     private javax.swing.JTextField aliasField;
     private javax.swing.JTextArea chatArea;
+    private javax.swing.JButton ipButton;
+    private javax.swing.JTextField ipField;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
