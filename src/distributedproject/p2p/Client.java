@@ -10,7 +10,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import javax.swing.JTextArea;
-import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -42,7 +41,6 @@ public class Client {
     
 
     public String sendMessage(String msg, String alias, String destinationIp) {
-        System.out.printf("msg=%s, name=%s, destIp=%s\n", msg, alias, destinationIp);
         if (msg.isEmpty()) {
             return null;
         }
