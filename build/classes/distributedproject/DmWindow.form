@@ -67,6 +67,9 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JTextField" name="messageField">
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="messageFieldActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="jButton1">
               <Properties>

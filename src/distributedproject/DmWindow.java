@@ -77,6 +77,12 @@ public class DmWindow extends javax.swing.JFrame {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
+        messageField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                messageFieldActionPerformed(evt);
+            }
+        });
+
         jButton1.setText("jButton1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,7 +129,12 @@ public class DmWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String message = messageField.getText();
+       sendMessage();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void sendMessage(){
+         String message = messageField.getText();
         if (!alias.equals("")) {
             client.setAlias(alias);
         } else {
@@ -134,8 +145,11 @@ public class DmWindow extends javax.swing.JFrame {
             chatArea.append(client.sendMessage(message, alias, destIp) + "\n");
             messageField.setText("");
         }
-
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }
+    
+    private void messageFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageFieldActionPerformed
+        sendMessage();
+    }//GEN-LAST:event_messageFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
