@@ -33,6 +33,7 @@ public class DmWindow extends javax.swing.JFrame {
         this.destIp = destIp;
         this.alias = alias;
         this.destIpLabel.setText(destIp);
+        this.chatArea.setFocusable(false);
         connectToClient();
         this.addWindowListener(new WindowAdapter(){
             @Override
