@@ -10,6 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import distributedproject.p2p.Client;
 import distributedproject.p2p.PortScanner;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Vector;
 import javax.swing.ListSelectionModel;
 import javax.swing.text.DefaultCaret;
@@ -112,14 +114,14 @@ public class MainWindow extends javax.swing.JFrame {
         jButton1.setText("Message");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                directMessageButton(evt);
             }
         });
 
         ipButton.setText("Add IP");
         ipButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ipButtonActionPerformed(evt);
+                addIPbutton(evt);
             }
         });
 
@@ -172,7 +174,7 @@ public class MainWindow extends javax.swing.JFrame {
         rightPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         peerList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "User 1", "User 2", "User 3", "User 4", "User 5", " . . ." };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
@@ -249,15 +251,56 @@ public class MainWindow extends javax.swing.JFrame {
         sendMessage();
     }//GEN-LAST:event_messageFieldActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void directMessageButton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_directMessageButton
+        //new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
+        Hashtable yafeelme = new Hashtable(); 
+        Enumeration aliases;
+        String str;
+        
+        // change alias to current alias
+        this.alias = this.aliasField.getText();
+        yafeelme.put(alias, new String(ipField.getText()));        
+        // show da Hash Table lawels
+        aliases = yafeelme.keys();
+        str = (String) aliases.nextElement();
+        System.out.println(alias + ": " + yafeelme.get(str));
+        String y = (String) (yafeelme.get(str)); /* gets ipAddr of user*/
+        // get the ipAddr of that Alias
+        new DmWindow(y, alias).setVisible(true);
+        
+    }//GEN-LAST:event_directMessageButton
 
-        new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void ipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipButtonActionPerformed
-        peers.add(ipField.getText());
+    private void addIPbutton(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIPbutton
+        /*
+        * @editor Angel Rojas 
+        */
+        //peers.add(ipField.getText());
+        //peerList.setListData(peers);
+        Hashtable yafeelme = new Hashtable(); 
+        Enumeration aliases;
+        String str;
+        
+        // change alias to current alias
+        this.alias = this.aliasField.getText();
+            
+        yafeelme.put(alias, new String(ipField.getText()));
+                
+        // show da Hash Table lawels
+        aliases = yafeelme.keys();
+                
+        while(aliases.hasMoreElements()) {
+            str = (String) aliases.nextElement();
+            System.out.println(alias + ": " + yafeelme.get(str));
+            String x = (String) (yafeelme.get(str)); /* gets ipAddr of user*/
+            
+            // add that current alias to our peerlist
+            peers.add(alias);
+            
+            //System.out.println(x); /* testing the ipAddr of that Alias*/
+        }        
+        System.out.println();
         peerList.setListData(peers);
-    }//GEN-LAST:event_ipButtonActionPerformed
+    }//GEN-LAST:event_addIPbutton
 
     
     /*

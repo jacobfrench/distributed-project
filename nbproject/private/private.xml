@@ -3,14 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/media/me/Storage/devfolder/dist-project/distributed-project/src/distributedproject/DmWindow.java</file>
-            <file>file:/media/me/Storage/devfolder/dist-project/distributed-project/src/distributedproject/MainWindow.java</file>
-=======
-            <file>file:/home/me/NetBeansProjects/JavaApplication4/src/distributedproject/DmWindow.java</file>
-            <file>file:/home/me/NetBeansProjects/JavaApplication4/src/distributedproject/p2p/Client.java</file>
-            <file>file:/home/me/NetBeansProjects/JavaApplication4/src/distributedproject/MainWindow.java</file>
->>>>>>> d37d5dc8ecf2071c9732853d5e9bedc1b3649fa8
+            <file>file:/home/student/Desktop/distributed-project/src/distributedproject/MainWindow.java</file>
+            <file>file:/home/student/Desktop/distributed-project/src/distributedproject/p2p/PortScanner.java</file>
         </group>
     </open-files>
 </project-private>

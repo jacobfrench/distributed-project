@@ -14,6 +14,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.Vector;
 import javax.swing.JList;
+import java.util.*;
 
 /**
  *
@@ -48,21 +49,42 @@ public class PortScanner implements Runnable {
     public void run() {
         int timeout = 1000;
         int port = 8000;
+        Hashtable yafeelme = new Hashtable(); 
+        Enumeration aliases;
+        String str;
+        
+        
         if (running) {
             for (int i = 1; i < 120; i++) {
                 if (!running) {
                     break;
                 }
                 String host = "192.168.1." + i;
+                
+                
                 try {
                     if (InetAddress.getByName(host).isReachable(timeout) && !clientIp.replace("/", "").equals(host)) {
+                        //String anon_alias = "Anonymous_Cat";
                         System.out.println(host + " is reachable");
-                        peers.add(host);
+                        //peers.add(anon_alias);
                         peerList.setListData(peers);
 
 //                    checkPort(host);
                     } else {
                         System.out.println(host + " is NOT reachable");
+                        String thisdoieck = "Anonymous Koala lol";
+                        peers.add(thisdoieck);
+                        peerList.setListData(peers);
+                        yafeelme.put("Bob", new String(host));
+                
+                        // show da Hash Table lawels
+                        aliases = yafeelme.keys();
+                
+                        while(aliases.hasMoreElements()) {
+                            str = (String) aliases.nextElement();
+                            System.out.println(str + ": " + yafeelme.get(str));
+                        }        
+                        System.out.println();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
