@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import distributedproject.p2p.Client;
 import distributedproject.p2p.PortScanner;
 import java.util.Vector;
+import java.util.HashMap;
 import javax.swing.ListSelectionModel;
 import javax.swing.text.DefaultCaret;
 
@@ -22,9 +23,11 @@ public class MainWindow extends javax.swing.JFrame {
 
     private String alias;
     private String destIp;
+    private String key;
     private Client client;
     private PortScanner portScanner;
     private Vector<String> peers;
+    private HashMap<String, String> clients;
 
     /**
      * Creates new form MainWindow
@@ -36,6 +39,8 @@ public class MainWindow extends javax.swing.JFrame {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         peers = new Vector<String>();
+        clients = new HashMap<String, String>();
+        
         peerList.setListData(peers);
         peerList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
@@ -250,12 +255,17 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_messageFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-        new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
+        key = peerList.getSelectedValue();
+        destIp = clients.get(key);
+        System.out.println("Sending message to " + destIp);
+        //new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
+        new DmWindow(destIp, alias).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void ipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipButtonActionPerformed
-        peers.add(ipField.getText());
+        peers.add(aliasField.getText());
+        System.out.println("My alias: " + peers);
+        clients.put(aliasField.getText(), ipField.getText());
         peerList.setListData(peers);
     }//GEN-LAST:event_ipButtonActionPerformed
 
@@ -271,7 +281,9 @@ public class MainWindow extends javax.swing.JFrame {
         this.alias = this.aliasField.getText();
 
         for (int i = 0; i < peerList.getModel().getSize(); i++) {
-            destIp = peerList.getModel().getElementAt(i);
+            //destIp = peerList.getModel().getElementAt(i);
+            key = peerList.getModel().getElementAt(i);
+            destIp = clients.get(key);
             if (!alias.equals("")) {
                 client.setAlias(this.aliasField.getText());
             } else {
