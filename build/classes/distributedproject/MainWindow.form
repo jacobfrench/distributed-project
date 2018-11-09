@@ -50,9 +50,9 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="ipButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="99" max="-2" attributes="0"/>
+                              <Component id="messageButton" min="-2" pref="99" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="scanButton" min="-2" pref="160" max="-2" attributes="0"/>
+                              <Component id="findPeersButton" min="-2" pref="160" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="messageField" pref="768" max="32767" attributes="0"/>
@@ -69,8 +69,8 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="scanButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="findPeersButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="messageButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="ipField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="ipButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -98,20 +98,20 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sendButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JToggleButton" name="scanButton">
+            <Component class="javax.swing.JToggleButton" name="findPeersButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Scan Peers"/>
+                <Property name="text" type="java.lang.String" value="Find Peers"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="scanButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="findPeersButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="messageButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Message"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="messageButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="ipField">
@@ -144,6 +144,10 @@
                               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="aliasField" min="-2" pref="210" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="joinButton" min="-2" pref="72" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="connectedLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -162,6 +166,8 @@
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="aliasField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="joinButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="connectedLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="jScrollPane2" min="-2" pref="422" max="-2" attributes="0"/>
@@ -247,6 +253,19 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JButton" name="joinButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Join"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="joinButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JLabel" name="connectedLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Not Connected."/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
       </SubComponents>

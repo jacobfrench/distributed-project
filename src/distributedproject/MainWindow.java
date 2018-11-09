@@ -10,9 +10,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import distributedproject.p2p.Client;
 import distributedproject.p2p.PortScanner;
+import distributedproject.p2p.HttpClientP2P;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Vector;
 import javax.swing.ListSelectionModel;
 import javax.swing.text.DefaultCaret;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -25,6 +33,9 @@ public class MainWindow extends javax.swing.JFrame {
     private Client client;
     private PortScanner portScanner;
     private Vector<String> peers;
+    private HashMap<String, String> map;
+    private String SERVER_IP = "http://45.33.39.105:9000"; //run on port 9000 since 8080 is in use
+    
 
     /**
      * Creates new form MainWindow
@@ -41,6 +52,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         alias = "Anon";
         connectToClient();
+        map = new HashMap<>();
 
     }
 
@@ -71,8 +83,8 @@ public class MainWindow extends javax.swing.JFrame {
         southPanel = new javax.swing.JPanel();
         messageField = new javax.swing.JTextField();
         sendButton = new javax.swing.JButton();
-        scanButton = new javax.swing.JToggleButton();
-        jButton1 = new javax.swing.JButton();
+        findPeersButton = new javax.swing.JToggleButton();
+        messageButton = new javax.swing.JButton();
         ipField = new javax.swing.JTextField();
         ipButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
@@ -84,6 +96,8 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         peerList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
+        joinButton = new javax.swing.JButton();
+        connectedLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -102,17 +116,17 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        scanButton.setText("Scan Peers");
-        scanButton.addActionListener(new java.awt.event.ActionListener() {
+        findPeersButton.setText("Find Peers");
+        findPeersButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                scanButtonActionPerformed(evt);
+                findPeersButtonActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Message");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        messageButton.setText("Message");
+        messageButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                messageButtonActionPerformed(evt);
             }
         });
 
@@ -135,9 +149,9 @@ public class MainWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ipButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(messageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(scanButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(findPeersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(southPanelLayout.createSequentialGroup()
                         .addComponent(messageField, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -149,8 +163,8 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, southPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(southPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(scanButton)
-                    .addComponent(jButton1)
+                    .addComponent(findPeersButton)
+                    .addComponent(messageButton)
                     .addComponent(ipField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ipButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -183,6 +197,15 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel1.setText("Available Peers");
         rightPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
+        joinButton.setText("Join");
+        joinButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                joinButtonActionPerformed(evt);
+            }
+        });
+
+        connectedLabel.setText("Not Connected.");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -195,6 +218,10 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
                         .addComponent(aliasField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(joinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(connectedLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -208,7 +235,9 @@ public class MainWindow extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(aliasField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(joinButton)
+                            .addComponent(connectedLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -228,18 +257,29 @@ public class MainWindow extends javax.swing.JFrame {
      * button is pressed down, a port scan will begin. Otherwise, the port scan
      * will stop.
     */
-    private void scanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scanButtonActionPerformed
-        if (scanButton.isSelected()) {
-            peers.clear();
-            portScanner.start();
-            scanButton.setText("Click to Stop");
-        } else {
-            portScanner.stop();
-            scanButton.setText("Scan Peers");
+    private void findPeersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findPeersButtonActionPerformed
+        try {
+        peers.clear(); 
+        HttpClientP2P httpClient = new HttpClientP2P();
+        String serverIp = SERVER_IP + "/get/peers";
+        JSONArray json = httpClient.get(serverIp);
+        JSONObject obj = new JSONObject();
+        for(int i = 0; i < json.length(); i++){
+            String alias = json.getJSONObject(i).getString("alias");
+            String ip = json.getJSONObject(i).getString("ip");
+            if(!ip.equals(client.getClientIp().replace("/", ""))){
+                peers.add(alias);
+                map.put(alias, ip);
+            }
+        }
+        peerList.setListData(peers);
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
-    }//GEN-LAST:event_scanButtonActionPerformed
+    }//GEN-LAST:event_findPeersButtonActionPerformed
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         sendMessage();
@@ -249,15 +289,32 @@ public class MainWindow extends javax.swing.JFrame {
         sendMessage();
     }//GEN-LAST:event_messageFieldActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void messageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageButtonActionPerformed
 
         new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_messageButtonActionPerformed
 
     private void ipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipButtonActionPerformed
         peers.add(ipField.getText());
         peerList.setListData(peers);
     }//GEN-LAST:event_ipButtonActionPerformed
+
+    private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinButtonActionPerformed
+        String aliasText = aliasField.getText();
+        String ip = client.getClientIp().replace("/", "");
+        String serverIp = SERVER_IP + "/post/peer";
+        HttpClientP2P httpClient = new HttpClientP2P();
+        try {
+            if(!aliasText.equals(null)){
+                httpClient.post(serverIp, aliasText, ip);
+                connectedLabel.setText("Connected.");
+            }
+            
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_joinButtonActionPerformed
 
     
     /*
@@ -270,9 +327,13 @@ public class MainWindow extends javax.swing.JFrame {
         String sentMessage = "";
         this.alias = this.aliasField.getText();
 
-        for (int i = 0; i < peerList.getModel().getSize(); i++) {
-            destIp = peerList.getModel().getElementAt(i);
-            if (!alias.equals("")) {
+        Iterator it = map.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry pair = (Map.Entry)it.next();
+            String destIp = pair.getValue().toString();
+            
+            
+             if (!alias.equals("")) {
                 client.setAlias(this.aliasField.getText());
             } else {
                 client.setAlias("Anon");
@@ -282,11 +343,8 @@ public class MainWindow extends javax.swing.JFrame {
                 messageField.setText("");
             }
             
-
         }
         chatArea.append(sentMessage);
-
-
 
     }
 
@@ -333,18 +391,20 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel MainPanel;
     private javax.swing.JTextField aliasField;
     private javax.swing.JTextArea chatArea;
+    private javax.swing.JLabel connectedLabel;
+    private javax.swing.JToggleButton findPeersButton;
     private javax.swing.JButton ipButton;
     private javax.swing.JTextField ipField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton joinButton;
+    private javax.swing.JButton messageButton;
     private javax.swing.JTextField messageField;
     private javax.swing.JList<String> peerList;
     private javax.swing.JPanel rightPanel;
-    private javax.swing.JToggleButton scanButton;
     private javax.swing.JButton sendButton;
     private javax.swing.JPanel southPanel;
     // End of variables declaration//GEN-END:variables
