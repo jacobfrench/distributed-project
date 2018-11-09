@@ -49,10 +49,10 @@
                               <Component id="ipField" min="-2" pref="178" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="ipButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="299" max="32767" attributes="0"/>
                               <Component id="messageButton" min="-2" pref="99" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="findPeersButton" min="-2" pref="160" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                              <Component id="findPeersButton" min="-2" pref="159" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Component id="messageField" pref="768" max="32767" attributes="0"/>
@@ -69,10 +69,10 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="findPeersButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="messageButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="ipField" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="ipButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="findPeersButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -98,14 +98,6 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sendButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JToggleButton" name="findPeersButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Find Peers"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="findPeersButtonActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="messageButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Message"/>
@@ -122,6 +114,14 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ipButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="findPeersButton">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Find Peers"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="findPeersButtonActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -145,7 +145,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="aliasField" min="-2" pref="210" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="connectButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="connectButton" min="-2" pref="111" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -252,7 +252,7 @@
             </Container>
             <Component class="javax.swing.JToggleButton" name="connectButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Not Connected"/>
+                <Property name="text" type="java.lang.String" value="Connect"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="connectButtonActionPerformed"/>

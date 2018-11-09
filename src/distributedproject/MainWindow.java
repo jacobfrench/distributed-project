@@ -11,6 +11,8 @@ import java.util.logging.Logger;
 import distributedproject.p2p.Client;
 import distributedproject.p2p.PortScanner;
 import distributedproject.p2p.HttpClientP2P;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,7 +37,6 @@ public class MainWindow extends javax.swing.JFrame {
     private Vector<String> peers;
     private HashMap<String, String> map;
     private String SERVER_IP = "http://45.33.39.105:9000"; //run on port 9000 since 8080 is in use
-    
 
     /**
      * Creates new form MainWindow
@@ -53,6 +54,17 @@ public class MainWindow extends javax.swing.JFrame {
         alias = "Anon";
         connectToClient();
         map = new HashMap<>();
+        
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e){
+                try {
+                    HttpClientP2P httpClient = new HttpClientP2P();
+                    httpClient.delete(client.getClientIp());
+                } catch (IOException ex) {
+                    Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
 
     }
 
@@ -60,7 +72,7 @@ public class MainWindow extends javax.swing.JFrame {
     * This method establishes a connection to a client on port 8000.
     * the destination ip (destIp) determines which IP address will recieve 
     * any message sent on this window.
-    */
+     */
     private void connectToClient() {
         try {
             client = new Client(destIp, chatArea, 8000, 8000);
@@ -83,10 +95,10 @@ public class MainWindow extends javax.swing.JFrame {
         southPanel = new javax.swing.JPanel();
         messageField = new javax.swing.JTextField();
         sendButton = new javax.swing.JButton();
-        findPeersButton = new javax.swing.JToggleButton();
         messageButton = new javax.swing.JButton();
         ipField = new javax.swing.JTextField();
         ipButton = new javax.swing.JButton();
+        findPeersButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         chatArea = new javax.swing.JTextArea();
@@ -115,13 +127,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
-        findPeersButton.setText("Find Peers");
-        findPeersButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                findPeersButtonActionPerformed(evt);
-            }
-        });
-
         messageButton.setText("Message");
         messageButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,6 +141,13 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
 
+        findPeersButton.setText("Find Peers");
+        findPeersButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findPeersButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout southPanelLayout = new javax.swing.GroupLayout(southPanel);
         southPanel.setLayout(southPanelLayout);
         southPanelLayout.setHorizontalGroup(
@@ -147,10 +159,10 @@ public class MainWindow extends javax.swing.JFrame {
                         .addComponent(ipField, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(ipButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 299, Short.MAX_VALUE)
                         .addComponent(messageButton, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(findPeersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(27, 27, 27)
+                        .addComponent(findPeersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(southPanelLayout.createSequentialGroup()
                         .addComponent(messageField, javax.swing.GroupLayout.DEFAULT_SIZE, 768, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -162,10 +174,10 @@ public class MainWindow extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, southPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(southPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(findPeersButton)
                     .addComponent(messageButton)
                     .addComponent(ipField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ipButton))
+                    .addComponent(ipButton)
+                    .addComponent(findPeersButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(southPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(sendButton)
@@ -196,7 +208,7 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel1.setText("Available Peers");
         rightPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
-        connectButton.setText("Not Connected");
+        connectButton.setText("Connect");
         connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 connectButtonActionPerformed(evt);
@@ -216,7 +228,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(aliasField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(connectButton)
+                        .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -246,35 +258,6 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /*
-     * This method is called whenever the port scan button is pressed. If the 
-     * button is pressed down, a port scan will begin. Otherwise, the port scan
-     * will stop.
-    */
-    private void findPeersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findPeersButtonActionPerformed
-        try {
-        peers.clear(); 
-        HttpClientP2P httpClient = new HttpClientP2P();
-        String serverIp = SERVER_IP + "/get/peers";
-        JSONArray json = httpClient.get(serverIp);
-        JSONObject obj = new JSONObject();
-        for(int i = 0; i < json.length(); i++){
-            String alias = json.getJSONObject(i).getString("alias");
-            String ip = json.getJSONObject(i).getString("ip");
-            if(!ip.equals(client.getClientIp().replace("/", ""))){
-                peers.add(alias);
-                map.put(alias, ip);
-            }
-        }
-        peerList.setListData(peers);
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (JSONException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_findPeersButtonActionPerformed
-
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         sendMessage();
     }//GEN-LAST:event_sendButtonActionPerformed
@@ -299,41 +282,59 @@ public class MainWindow extends javax.swing.JFrame {
         String serverIp = SERVER_IP + "/post/peer";
         HttpClientP2P httpClient = new HttpClientP2P();
         try {
-            if(!aliasText.equals(null) && connectButton.isSelected()){
+            if (!aliasText.equals(null) && connectButton.isSelected()) {
                 httpClient.post(serverIp, aliasText, ip);
-                connectButton.setText("Connected");
+                connectButton.setText("Disconnect");
             } else {
                 httpClient.delete(client.getClientIp());
-                connectButton.setText("Not Connected");
+                connectButton.setText("Connect");
             }
-            
+
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_connectButtonActionPerformed
 
+    private void findPeersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findPeersButtonActionPerformed
+        try {
+            peers.clear();
+            HttpClientP2P httpClient = new HttpClientP2P();
+            String serverIp = SERVER_IP + "/get/peers";
+            JSONArray json = httpClient.get(serverIp);
+            JSONObject obj = new JSONObject();
+            for (int i = 0; i < json.length(); i++) {
+                String alias = json.getJSONObject(i).getString("alias");
+                String ip = json.getJSONObject(i).getString("ip");
+                if (!ip.equals(client.getClientIp().replace("/", ""))) {
+                    peers.add(alias);
+                    map.put(alias, ip);
+                }
+            }
+            peerList.setListData(peers);
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (JSONException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-    
-    
-    
-    
+    }//GEN-LAST:event_findPeersButtonActionPerformed
+
     /*
     * This method will send a message to every IP address found after a port scan.
     * if the IP is in the list on the right side, a message will be sent to that
     * address on port 8000.
-    */
+     */
     public void sendMessage() {
         String message = messageField.getText();
         String sentMessage = "";
         this.alias = this.aliasField.getText();
 
         Iterator it = map.entrySet().iterator();
-        while(it.hasNext()){
-            Map.Entry pair = (Map.Entry)it.next();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
             String destIp = pair.getValue().toString();
-            
-            
-             if (!alias.equals("")) {
+
+            if (!alias.equals("")) {
                 client.setAlias(this.aliasField.getText());
             } else {
                 client.setAlias("Anon");
@@ -342,7 +343,7 @@ public class MainWindow extends javax.swing.JFrame {
                 sentMessage = client.sendMessage(message, alias, destIp) + "\n";
                 messageField.setText("");
             }
-            
+
         }
         chatArea.append(sentMessage);
 
@@ -392,7 +393,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTextField aliasField;
     private javax.swing.JTextArea chatArea;
     private javax.swing.JToggleButton connectButton;
-    private javax.swing.JToggleButton findPeersButton;
+    private javax.swing.JButton findPeersButton;
     private javax.swing.JButton ipButton;
     private javax.swing.JTextField ipField;
     private javax.swing.JLabel jLabel1;
