@@ -96,8 +96,7 @@ public class MainWindow extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         peerList = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
-        joinButton = new javax.swing.JButton();
-        connectedLabel = new javax.swing.JLabel();
+        connectButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -197,14 +196,12 @@ public class MainWindow extends javax.swing.JFrame {
         jLabel1.setText("Available Peers");
         rightPanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
 
-        joinButton.setText("Join");
-        joinButton.addActionListener(new java.awt.event.ActionListener() {
+        connectButton.setText("Not Connected");
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                joinButtonActionPerformed(evt);
+                connectButtonActionPerformed(evt);
             }
         });
-
-        connectedLabel.setText("Not Connected.");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -219,9 +216,7 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(aliasField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(joinButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(connectedLabel)
+                        .addComponent(connectButton)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -236,12 +231,11 @@ public class MainWindow extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(aliasField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
-                            .addComponent(joinButton)
-                            .addComponent(connectedLabel))
+                            .addComponent(connectButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 4, Short.MAX_VALUE)
                         .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
@@ -299,23 +293,29 @@ public class MainWindow extends javax.swing.JFrame {
         peerList.setListData(peers);
     }//GEN-LAST:event_ipButtonActionPerformed
 
-    private void joinButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_joinButtonActionPerformed
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         String aliasText = aliasField.getText();
         String ip = client.getClientIp().replace("/", "");
         String serverIp = SERVER_IP + "/post/peer";
         HttpClientP2P httpClient = new HttpClientP2P();
         try {
-            if(!aliasText.equals(null)){
+            if(!aliasText.equals(null) && connectButton.isSelected()){
                 httpClient.post(serverIp, aliasText, ip);
-                connectedLabel.setText("Connected.");
+                connectButton.setText("Connected");
+            } else {
+                httpClient.delete(client.getClientIp());
+                connectButton.setText("Not Connected");
             }
             
         } catch (IOException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }//GEN-LAST:event_joinButtonActionPerformed
+    }//GEN-LAST:event_connectButtonActionPerformed
 
+
+    
+    
+    
     
     /*
     * This method will send a message to every IP address found after a port scan.
@@ -391,7 +391,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel MainPanel;
     private javax.swing.JTextField aliasField;
     private javax.swing.JTextArea chatArea;
-    private javax.swing.JLabel connectedLabel;
+    private javax.swing.JToggleButton connectButton;
     private javax.swing.JToggleButton findPeersButton;
     private javax.swing.JButton ipButton;
     private javax.swing.JTextField ipField;
@@ -400,7 +400,6 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JButton joinButton;
     private javax.swing.JButton messageButton;
     private javax.swing.JTextField messageField;
     private javax.swing.JList<String> peerList;

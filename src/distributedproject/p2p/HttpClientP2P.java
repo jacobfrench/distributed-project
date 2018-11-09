@@ -82,4 +82,28 @@ public class HttpClientP2P {
 		}
 
 	}
+        
+        public void delete(String ip) throws IOException {
+		String requestUrl = "http://45.33.39.105:9000/delete/peer/"+ip.replace("/", "");
+		System.out.println(requestUrl);
+		URL url = new URL(requestUrl);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection(); 
+		connection.setDoInput(true);
+		connection.setInstanceFollowRedirects(false); 
+		connection.setRequestMethod("DELETE"); 
+		connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+		connection.setRequestProperty("charset", "utf-8");
+		connection.setUseCaches (false);
+		System.out.println("Response code: " + connection.getResponseCode());
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		String line, responseText = "";
+		while ((line = br.readLine()) != null) {
+		    System.out.println("LINE: "+line);
+		    responseText += line;
+		}
+		br.close();
+		connection.disconnect();
+
+	}
 }
