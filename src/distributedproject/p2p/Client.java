@@ -54,7 +54,8 @@ public class Client {
             e.printStackTrace();
         }
         System.out.println(msg);
-        return AES.decrypt(msg, secretKey);
+        msg = AES.decrypt(msg, secretKey);
+        return msg;
 
     }
 

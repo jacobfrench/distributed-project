@@ -41,13 +41,15 @@ public class Channel implements Runnable {
     public void run() {
         byte[] buffer = new byte['Ѐ'];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-
+        final String secretKey = "shhhhhhhhh!!!";
         running = true;
         while (running) {
             try {
                 socket.receive(packet);
                 String msg = new String(buffer, 0, packet.getLength());
+                
                 System.out.println(msg);
+                msg = AES.decrypt(msg, secretKey);
                 this.textArea.append(msg+"\n");
             } catch (IOException e) {
                 break;
