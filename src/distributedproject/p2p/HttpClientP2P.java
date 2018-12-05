@@ -21,6 +21,7 @@ import org.json.JSONArray;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class HttpClientP2P {
 	private URL url;
@@ -57,7 +58,6 @@ public class HttpClientP2P {
 		JSONArray json = new JSONArray(jsonText);
                 
                 
-
 		return json;
 
 	}

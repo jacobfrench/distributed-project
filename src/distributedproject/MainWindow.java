@@ -268,7 +268,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void messageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_messageButtonActionPerformed
 
-        new DmWindow(peerList.getSelectedValue(), alias).setVisible(true);
+        new DmWindow(map.get(peerList.getSelectedValue()), this.aliasField.getText()).setVisible(true);
     }//GEN-LAST:event_messageButtonActionPerformed
 
     private void ipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipButtonActionPerformed
