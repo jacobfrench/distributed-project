@@ -1,4 +1,4 @@
-/*
+/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -41,11 +41,12 @@ public class Client {
     
 
     public String sendMessage(String msg, String alias, String destinationIp) {
+        final String secretKey = "shhhhhhhhh!!!";
         if (msg.isEmpty()) {
             return null;
         }
 
-        msg = alias + ": " + msg;
+        msg = AES.encrypt(alias + ": " + msg, secretKey );
         try {
             address = new java.net.InetSocketAddress(destinationIp, destPort);
             channel.sendTo(address, msg);
@@ -53,7 +54,7 @@ public class Client {
             e.printStackTrace();
         }
         System.out.println(msg);
-        return msg;
+        return AES.decrypt(msg, secretKey);
 
     }
 
